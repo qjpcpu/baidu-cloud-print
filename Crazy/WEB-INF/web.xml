@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>Crazy</display-name>
+  <servlet>
+    <description>Crazy Application</description>
+    <display-name>Crazy</display-name>
+    <servlet-name>Crazy</servlet-name>
+    <servlet-class>crazy.CrazyApp</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <filter><filter-name>RestFilter</filter-name><filter-class>com.hp.sbs.container.impl.servlet.RestFilter</filter-class></filter>
+  <filter-mapping><filter-name>RestFilter</filter-name><url-pattern>/*</url-pattern></filter-mapping>
+  <listener>
+	<listener-class>com.hp.sbs.commons.monitor.LivenessContextListener</listener-class>
+  </listener>   
+  <servlet-mapping>
+    <servlet-name>Crazy</servlet-name>
+    <url-pattern>/cui/*</url-pattern>
+    <url-pattern>/do/*</url-pattern>
+    <url-pattern>/mgmnt/*</url-pattern>
+  </servlet-mapping>
+</web-app>

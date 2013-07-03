@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<application xmlns="http://www.hp.com/schemas/imaging/cnx/sip/metadata/2010/8/20">
+    <languages>
+        <language>en</language>
+    </languages>
+    <!--  unsupportedModels>
+        <model>
+            <modelName>HP LaserJet Cheetah</modelName>
+        </model>
+    </unsupportedModels -->
+    <deviceClasses>
+        <deviceClass>Basic.2.0</deviceClass>
+    </deviceClasses>
+    <countries>
+        <country>CA</country>
+        <country>US</country>
+    </countries>
+    <recommendedCountries>
+        <country>US</country>
+    </recommendedCountries> 
+    <appID>1023.2</appID>    
+    <appURL>/sbs/02.00/sip/1023.2/v/01.00/cui/main</appURL>
+    <state>Production</state>
+    <appType>Basic</appType>
+    <ownerEmail>sipdev@hp.com</ownerEmail>
+    <dateCreated>25/03/2013</dateCreated>
+    <dateUpdated>25/03/2013 01:29:16</dateUpdated>
+    <dateContentUpdated>25/03/2013 01:29:16</dateContentUpdated>
+    <appName>Crazy</appName>
+	<appVersion>01.00</appVersion>
+</application>

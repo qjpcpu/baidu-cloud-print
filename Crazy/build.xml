@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Crazy_1023.2" default="build" basedir=".">
+
+	<property name="bundleId" value="Crazy_1023.2"/>
+	<property name="bundleVersion" value="1.0.0"/>
+	<!-- Default target directory.Modify this property to change target location -->
+	<property name="default.dist.dir" value="${basedir}/target"/>
+
+	<!-- Compiler settings. -->
+	<property name="javacFailOnError" value="false"/>
+	<property name="javacDebugInfo" value="on"/>
+	<property name="javacVerbose" value="false"/>
+	<property name="logExtension" value=".log"/>
+	<property name="compilerArg" value=""/>
+	<property name="compilation.prereq.log" value="${buildDirectory}/prereqErrors.log"/>
+	<property environment="env"/>
+	<target name="init" depends="properties">
+		<property name="build.result.folder" value="${basedir}"/>
+		<property name="temp.folder" value="${basedir}/temp.folder"/>
+		<property name="compilation.problem.marker" value="${build.result.folder}/compilation.problem"/>
+		<condition property="compilation.problem.marker.exists" value="true"		>
+			<and>
+			<available file="${compilation.problem.marker}"/>
+			</and>
+		</condition>
+	</target>
+
+
+	<target name="properties" if="running.eclipse">
+		<property name="target.directory" value="${export.directory}"/>
+
+	</target>
+
+	<target name="export.dir" unless="running.eclipse">
+		<delete dir="${default.dist.dir}"/>
+		<mkdir dir="${default.dist.dir}"/>
+		<property name="target.directory" value="${default.dist.dir}"/>
+
+	</target>
+
+	<target name="build">
+		<antcall target="clean"/>
+		<antcall target="build.update.jar"/>
+		<antcall target="Archive"/>
+		<antcall target="Export"/>
+	</target>
+
+	<target name="build.update.jar" depends="init" description="Build the project: Crazy_1023.2.">
+		<delete dir="${temp.folder}"/>
+		<mkdir dir="${temp.folder}"/>
+		<antcall target="build.jars"/>
+		<antcall target="gather.bin.parts">
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
+		</antcall>
+		<zip destfile="${temp.folder}/Crazy_1023.2.war" basedir="${temp.folder}/Crazy_1023.2" filesonly="false" whenempty="skip" update="false"/>
+		<delete dir="${temp.folder}/Crazy_1023.2"/>
+	</target>
+
+	<target name="@dot" depends="init" description="Create jar: Crazy_1023.2 @dot.">
+		<delete dir="${build.result.folder}/WEB-INF/classes/"/>
+		<mkdir dir="${build.result.folder}/WEB-INF/classes/"/>
+		<path id="@dot.classpath">
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-commons-2.0.0/jars/logger-1.1.0.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/external-libraries/slf4j-api-1.6.4.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/external-libraries/slf4j-log4j12-1.6.1.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/external-libraries/logback-classic-1.0.0.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-commons-2.0.0/jars/wpcommon-logging-1.0.4-SNAPSHOT.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/external-libraries/logback-core-1.0.0.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/equinox/plugins/org.eclipse.osgi_3.6.1.R36x_v20100806.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/equinox/plugins/org.eclipse.equinox.servletbridge.extensionbundle_1.2.0.v20100503.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/equinox/plugins/org.eclipse.equinox.weaving.hook_1.0.0.v20100503.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/equinox/plugins/org.eclipse.equinox.transforms.hook_1.0.200.v20100503.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/external-libraries/servlet-api-3.0.20100224.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/external-libraries/mailapi.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/external-libraries/log4j-1.2.15.v201005080500.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-commons-2.0.0/jars/sbsliveness-1.1.3.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-commons-2.0.0/jars/sbsconfig-1.0.3.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-commons-2.0.0/jars/oauthutils-1.0.0.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-commons-2.0.0/jars/wpcommon-osgi-1.0.6-SNAPSHOT.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-commons-2.0.0/jars/securitydb-client-1.0.0.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-commons-2.0.0/jars/dbcp-1.0.0.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/external-libraries/commons-pool-1.5.5.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/external-libraries/org.eclipse.osgi.services_3.2.100.v20100503.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-commons-2.0.0/jars/sbsutils-1.0.1.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-commons-2.0.0/jars/cloudui-om-1.0.0.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/external-libraries/commons-codec-1.4.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/external-libraries/httpclient-3.1.0.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/external-libraries/logging-1.1.1.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-core-2.0.0/jars/webcontent-1.0.0.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-core-2.0.0/jars/sbs-service-api-1.0.0.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-core-2.0.0/jars/sips-api-1.3.1.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-commons-2.0.0/jars/eprint-schema-1.0.0.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-commons-2.0.0/jars/eprint-print-schema-1.0.0.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-commons-2.0.0/jars/eprint-scan-schema-1.0.0.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-commons-2.0.0/jars/platform-consts-1.0.0.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-core-2.0.0/jars/sips-core-runtime-1.0.1.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-core-2.0.0/jars/sips-locale-resources-1.0.1.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/sbs-commons-2.0.0/jars/imaging-api-1.0.0.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/external-libraries/pax-web-jsp-2.0.0-SNAPSHOT.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/external-libraries/ant-1.8.2.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/external-libraries/pax-web-jetty-bundle-2.0.0-SNAPSHOT.jar"/>
+			<pathelement path="${env.SBS_HOME}/SBSPlatform/12.5-TrainRelease/equinox/plugins/org.mortbay.jetty.util_6.1.23.v201004211559.jar"/>
+			<pathelement path="."/>
+			<pathelement path="${build.result.folder}/../Crazy_1023.2_1.0.0/."/>
+			<pathelement path="WEB-INF/classes"/>
+			<pathelement path="${build.result.folder}/../Crazy_1023.2_1.0.0/WEB-INF/classes"/>
+			<pathelement path="resources/localization/"/>
+			<pathelement path="${build.result.folder}/../Crazy_1023.2_1.0.0/resources/localization/"/>
+			<pathelement path="WEB-INF/lib/json-20090211.jar"/>
+			<pathelement path="${build.result.folder}/../Crazy_1023.2_1.0.0/WEB-INF/lib/json-20090211.jar"/>
+			<pathelement path="WEB-INF/lib/pcs-java-sdk.jar"/>
+			<pathelement path="${build.result.folder}/../Crazy_1023.2_1.0.0/WEB-INF/lib/pcs-java-sdk.jar"/>
+			<pathelement path="resources/config/"/>
+			<pathelement path="${build.result.folder}/../Crazy_1023.2_1.0.0/resources/config/"/>
+			<pathelement path="sipcontent/project/jsp/"/>
+			<pathelement path="${build.result.folder}/../Crazy_1023.2_1.0.0/sipcontent/project/jsp/"/>
+			<pathelement path="sipcontent/project/thumbnail/"/>
+			<pathelement path="${build.result.folder}/../Crazy_1023.2_1.0.0/sipcontent/project/thumbnail/"/>
+		</path>
+		<!-- compile the source code -->
+		<javac destdir="${build.result.folder}/WEB-INF/classes/" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" errorProperty="compilation.error.occured"		>
+			<classpath refid="@dot.classpath" />
+			<src path="src/"			/>
+			<compilerarg line="-log &apos;${build.result.folder}/WEB-INF/classes/${logExtension}&apos;" compiler="org.eclipse.jdt.core.JDTCompilerAdapter"			/>
+		</javac>
+		<antcall target="checkCompilationResults"/>
+		<!-- Copy necessary resources -->
+		<copy todir="${build.result.folder}/WEB-INF/classes/" failonerror="true" overwrite="false">
+			<fileset dir="src/">
+				<exclude name="**/*.java"/>
+				<exclude name="**/package.htm*"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="build.jars" depends="init" description="Compile classes and build nested jars for the plug-in: Crazy_1023.2.">
+		<delete file="${compilation.problem.marker}" quiet="true"/>
+		<available property="@dot" file="${build.result.folder}/@dot"/>
+		<antcall target="@dot"/>
+	</target>
+
+	<target name="checkCompilationResults" if="compilation.error.occured">
+		<echo file="${compilation.problem.marker}" message="Crazy_1023.2${line.separator}compilation.error.occured=${compilation.error.occured}"/>
+		<eclipse.logCompileError bundle="Crazy_1023.2" log="${compilation.prereq.log}">
+		</eclipse.logCompileError>
+	</target>
+
+
+	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/Crazy_1023.2"/>
+		<copy todir="${destination.temp.folder}/Crazy_1023.2" failonerror="true" overwrite="true">
+			<fileset dir="${basedir}">
+				<include name="resources/config/"/>
+				<include name="WEB-INF/lib/json-20090211.jar"/>
+				<include name="WEB-INF/lib/pcs-java-sdk.jar"/>
+				<include name="sipcontent/project/jsp/"/>
+				<include name="sipcontent/project/thumbnail/"/>
+				<include name="WEB-INF/"/>
+				<include name="sipcontent/"/>
+				<include name="resources/localization/"/>
+				<include name="resources/certificates/"/>
+				<include name="META-INF/MANIFEST.MF"/>
+			</fileset>
+		</copy>
+	</target>
+	<target name="Archive" depends="init" description="create war file">
+		<antcall target="PackageInfo"/>
+		<zip destfile="${temp.folder}/runtimePackage.zip" basedir="${temp.folder}" filesonly="false" whenempty="skip" update="false">
+			<fileset dir="resources">
+				<include name="config/"/>
+			</fileset>
+		</zip>
+		<copy file="${basedir}/META-INF/metadata.xml" todir="${temp.folder}" failonerror="true" overwrite="true">
+			<fileset dir="${basedir}">
+				<include name="metacontent/"/>
+			</fileset>
+		</copy>
+		<delete file="${temp.folder}/Crazy_1023.2.war"/>
+		<delete file="${temp.folder}//packageInfo.inf"/>
+	</target>
+	<target name="Export" depends="init,export.dir" description="create tar ball">
+		<tar destfile="${temp.folder}/Crazy_1023.2.tar" basedir="${temp.folder}"		/>
+		<gzip src="${temp.folder}/Crazy_1023.2.tar" zipfile="${target.directory}/Crazy_1023.2.tar.gz"/>
+		<delete dir="${temp.folder}"/>
+	</target>
+	<target name="PackageInfo" depends="init,export.dir" description="create tar ball">
+		<propertyfile file="${temp.folder}/packageInfo.inf" comment="Autogenerated info file"		>
+		<entry key = "AppContextPath"  value = "sbs/02.00/sip/1023.2/v/01.00" />
+		<entry key = "SBS-Bundle-Type"  value = "com/hp/usips/sip/EE2_0APP"  />
+		</propertyfile>
+	</target>
+
+	<target name="clean" depends="init" description="Clean the project: Crazy_1023.2 of all the zips, jars and logs created.">
+		<delete dir="${build.result.folder}/@dot"/>
+		<delete file="${build.result.folder}/src.zip"/>
+		<delete dir="${temp.folder}"/>
+		<delete file="${compilation.problem.marker}" quiet="true"/>
+	</target>
+
+</project>
